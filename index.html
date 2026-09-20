@@ -124,29 +124,13 @@
   }
   .brand-tag { font-size: 11.5px; color: var(--ink-soft); margin-top: 1px; }
 
-  .mode-switch {
-    display: flex;
-    background: var(--surface-2);
-    border-radius: 999px;
-    padding: 3px;
-    margin-bottom: 18px;
-    gap: 2px;
+  .role-switch-badge {
+    display: flex; align-items: center; justify-content: space-between; gap: 8px;
+    background: var(--surface-2); border-radius: var(--radius-sm);
+    padding: 9px 12px; margin-bottom: 18px; font-size: 12px; font-weight: 700;
   }
-  .mode-switch button {
-    flex: 1;
-    border: none;
-    background: transparent;
-    color: var(--ink-soft);
-    font-size: 12.5px;
-    font-weight: 600;
-    padding: 8px 6px;
-    border-radius: 999px;
-    cursor: pointer;
-    transition: background .15s ease, color .15s ease;
-  }
-  .mode-switch button.active {
-    background: var(--primary);
-    color: #fff;
+  .role-switch-badge button {
+    border: none; background: none; color: var(--primary); font-weight: 700; font-size: 11.5px; cursor: pointer; padding: 0;
   }
 
   .navlist { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 2px; }
@@ -169,7 +153,6 @@
   .navlist button .ic { font-size: 16.5px; width: 20px; text-align: center; }
   .navlist button:hover { background: var(--surface-2); color: var(--ink); }
   .navlist button.active { background: var(--primary-tint); color: var(--primary-dark); }
-  :root[data-theme="dark"] .navlist button.active, .navlist button.active { color: var(--primary-dark); }
 
   .sidebar-foot {
     margin-top: auto;
@@ -508,6 +491,66 @@
   ::-webkit-scrollbar { width: 9px; height: 9px; }
   ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 999px; }
 
+  /* ---------- Role gate & seller login ---------- */
+  .role-gate {
+    position: fixed; inset: 0; z-index: 100;
+    background: var(--primary);
+    display: flex; align-items: center; justify-content: center;
+    padding: 24px;
+    padding-top: calc(24px + env(safe-area-inset-top,0px));
+    padding-bottom: calc(24px + env(safe-area-inset-bottom,0px));
+  }
+  .role-gate.hidden { display: none; }
+  .role-gate::before {
+    content: ""; position: absolute; right: -60px; top: -80px;
+    width: 260px; height: 260px; border-radius: 50%; background: var(--accent); opacity: .16;
+  }
+  .role-gate::after {
+    content: ""; position: absolute; left: -70px; bottom: -90px;
+    width: 240px; height: 240px; border-radius: 50%; background: var(--accent); opacity: .1;
+  }
+  .role-card {
+    position: relative;
+    background: var(--surface);
+    border-radius: 24px;
+    padding: 40px 36px;
+    max-width: 560px;
+    width: 100%;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+  }
+  .role-gate-brand { display: flex; align-items: center; gap: 12px; margin-bottom: 26px; }
+  .role-gate-brand .brand-mark { width: 44px; height: 44px; font-size: 21px; }
+  .role-gate-brand .brand-name { font-size: 21px; }
+  .role-gate h1 { font-size: 21px; font-weight: 800; margin-bottom: 6px; line-height: 1.3; }
+  .role-gate p.lead { font-size: 13.5px; color: var(--ink-soft); margin: 0 0 26px; }
+  .role-options { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .role-opt {
+    text-align: left;
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-md);
+    background: var(--surface);
+    padding: 20px 18px;
+    cursor: pointer;
+    transition: border-color .15s ease, transform .15s ease, background .15s ease;
+  }
+  .role-opt:hover { border-color: var(--primary); transform: translateY(-2px); background: var(--primary-tint); }
+  .role-opt .ro-emoji { font-size: 30px; margin-bottom: 10px; display: block; }
+  .role-opt .ro-title { font-size: 15px; font-weight: 800; margin-bottom: 4px; }
+  .role-opt .ro-desc { font-size: 12px; color: var(--ink-soft); line-height: 1.5; }
+  .role-gate-foot { font-size: 11.5px; color: var(--ink-faint); margin-top: 22px; text-align: center; }
+
+  .login-back { background: none; border: none; color: var(--ink-soft); font-weight: 700; font-size: 12.5px; cursor: pointer; padding: 0; margin-bottom: 14px; }
+  .login-icon-row { display: flex; align-items: center; gap: 12px; margin-bottom: 18px; }
+  .login-icon-row .shop-avatar { width: 48px; height: 48px; border-radius: 14px; font-size: 22px; }
+  .login-error {
+    display: none;
+    background: var(--brick-tint); color: var(--brick);
+    font-size: 12.5px; font-weight: 600; border-radius: var(--radius-sm);
+    padding: 10px 12px; margin-bottom: 14px;
+  }
+  .login-error.show { display: block; }
+  .login-hint { font-size: 11.5px; color: var(--ink-faint); margin-top: 16px; text-align: center; }
+
   /* ---------- Responsive ---------- */
   @media (max-width: 880px) {
     .sidebar { display: none; }
@@ -529,6 +572,10 @@
     .field-row { grid-template-columns: 1fr; }
     .brand-name { font-size: 17px; }
   }
+  @media (max-width: 520px) {
+    .role-options { grid-template-columns: 1fr; }
+    .role-card { padding: 28px 22px; }
+  }
   @media (max-width: 480px) {
     .prod-grid { grid-template-columns: repeat(auto-fill, minmax(148px, 1fr)); gap: 11px; }
     .cat-grid { grid-template-columns: repeat(3, 1fr); }
@@ -538,6 +585,54 @@
 </style>
 </head>
 <body>
+
+<div class="role-gate" id="roleGate">
+  <div class="role-card">
+    <div class="role-gate-brand">
+      <div class="brand-mark">🧺</div>
+      <div class="brand-name">LokalMart</div>
+    </div>
+    <h1>Kamu mau masuk sebagai apa?</h1>
+    <p class="lead">Pilih peranmu dulu — tampilan dan menu yang muncul akan disesuaikan, jadi tiap peran cuma bisa akses bagiannya sendiri.</p>
+    <div class="role-options">
+      <button class="role-opt" onclick="chooseRole('buyer')">
+        <span class="ro-emoji">🛍️</span>
+        <div class="ro-title">Saya Pembeli</div>
+        <div class="ro-desc">Jelajahi produk, belanja, dan pantau pesananmu. Tidak perlu login.</div>
+      </button>
+      <button class="role-opt" onclick="goToSellerLogin()">
+        <span class="ro-emoji">🏪</span>
+        <div class="ro-title">Saya Penjual (UMKM)</div>
+        <div class="ro-desc">Kelola toko, produk, stok, dan pesanan masuk. Perlu login.</div>
+      </button>
+    </div>
+    <div class="role-gate-foot">Prototype demo — kamu bisa ganti peran kapan saja lewat tombol di menu samping.</div>
+  </div>
+</div>
+
+<div class="role-gate hidden" id="sellerLoginGate">
+  <div class="role-card">
+    <button class="login-back" onclick="backToRoleSelect()">← Kembali</button>
+    <div class="login-icon-row">
+      <div class="shop-avatar">🏪</div>
+      <div>
+        <h1 style="margin-bottom:2px;">Login Penjual</h1>
+        <p class="lead" style="margin:0;">Khusus pemilik toko — masuk untuk mengakses dashboard UMKM-mu.</p>
+      </div>
+    </div>
+    <div class="login-error" id="loginError">Username atau password salah. Coba lagi.</div>
+    <div class="field">
+      <label>Username Toko</label>
+      <input id="sellerUsername" type="text" placeholder="Nama tokomu" autocomplete="username" onkeydown="if(event.key==='Enter'){document.getElementById('sellerPassword').focus()}">
+    </div>
+    <div class="field">
+      <label>Password</label>
+      <input id="sellerPassword" type="password" placeholder="Password" autocomplete="current-password" onkeydown="if(event.key==='Enter'){attemptSellerLogin()}">
+    </div>
+    <button class="btn btn-primary btn-block" onclick="attemptSellerLogin()">Masuk sebagai Penjual</button>
+    <div class="login-hint">Demo login — username: <strong>toko kopi nusantara</strong>, password: <strong>enaksekali</strong></div>
+  </div>
+</div>
 
 <div class="app">
   <!-- SIDEBAR (desktop) -->
@@ -550,9 +645,9 @@
       </div>
     </div>
 
-    <div class="mode-switch">
-      <button id="modeBtnBuyer" class="active" onclick="setMode('buyer')">🛍️ Pembeli</button>
-      <button id="modeBtnSeller" onclick="setMode('seller')">🏪 UMKM Saya</button>
+    <div class="role-switch-badge">
+      <span id="roleBadgeLabel">🛍️ Mode Pembeli</span>
+      <button onclick="switchRole()">Ganti Peran</button>
     </div>
 
     <ul class="navlist" id="navlistBuyer">
@@ -718,6 +813,12 @@ const CATEGORIES = [
 
 const MY_SHOP_ID = 'toko-saya';
 
+/* Demo credential for the seller side only. This is a client-side prototype
+   check, not real authentication — anyone viewing the source can see it.
+   Good enough to keep casual visitors out of the seller dashboard for a demo. */
+const SELLER_USERNAME = 'toko kopi nusantara';
+const SELLER_PASSWORD = 'enaksekali';
+
 function seedDB() {
   const shops = [
     { id: 'toko-saya', name: 'Toko Kopi Nusantara', category: 'Makanan & Minuman', owner: 'Kamu', desc: 'Kopi pilihan dari petani lokal Gayo, Toraja, dan Kintamani, disangrai segar tiap minggu.', location: 'Bandung, Jawa Barat', emoji: '☕', color: '#1F4D3D' },
@@ -835,10 +936,7 @@ function shopColor(shopId) {
   const s = findShop(shopId);
   return (s && s.color) || '#1F4D3D';
 }
-function tint(hex, amt) {
-  // simple lighten for thumbnail bg
-  return hex + '22';
-}
+function tint(hex) { return hex + '22'; }
 function toast(msg) {
   const t = document.getElementById('toast');
   t.textContent = msg;
@@ -872,8 +970,8 @@ const SELLER_VIEWS = [
 
 function setMode(mode) {
   currentMode = mode;
-  document.getElementById('modeBtnBuyer').classList.toggle('active', mode === 'buyer');
-  document.getElementById('modeBtnSeller').classList.toggle('active', mode === 'seller');
+  const badge = document.getElementById('roleBadgeLabel');
+  if (badge) badge.textContent = mode === 'buyer' ? '🛍️ Mode Pembeli' : '🏪 Mode UMKM';
   document.getElementById('navlistBuyer').style.display = mode === 'buyer' ? 'flex' : 'none';
   document.getElementById('navlistSeller').style.display = mode === 'seller' ? 'flex' : 'none';
   document.getElementById('searchWrap').style.display = mode === 'buyer' ? 'block' : 'none';
@@ -897,7 +995,7 @@ function navigate(view, param) {
   if (target) target.classList.add('active');
   document.querySelectorAll('.navlist button').forEach(b => b.classList.toggle('active', b.dataset.view === view));
   renderMobileTabs();
-  window.scrollTo({ top: 0, behavior: 'instant' in window ? 'instant' : 'auto' });
+  window.scrollTo(0, 0);
 
   if (view === 'home') renderHome();
   else if (view === 'category') renderCategoryView(param || currentCategory);
@@ -981,9 +1079,6 @@ function renderSearchResults(q) {
   const grid = document.getElementById('searchProdGrid');
   grid.innerHTML = results.length ? results.map(productCard).join('') : emptyState('🔍', 'Tidak ditemukan', 'Coba kata kunci lain, misalnya nama produk atau kategori.');
 }
-document.addEventListener('DOMContentLoaded', () => {
-  // live-filter as well
-});
 
 /* ---------- BUYER: product detail ---------- */
 function renderProductDetail(id) {
@@ -997,7 +1092,7 @@ function renderProductDetail(id) {
   window._pdQty = 1;
 
   container.innerHTML = `
-    <button class="back-link" onclick="navigate('${window._pdBackView||'home'}')">← Kembali</button>
+    <button class="back-link" onclick="navigate('home')">← Kembali</button>
     <div class="pd-layout">
       <div class="pd-image" style="background:${tint(color)}">${p.emoji}</div>
       <div>
@@ -1232,9 +1327,8 @@ function openReviewModal(orderId, productId, productName) {
   _reviewCtx = { orderId, productId };
   document.getElementById('reviewModalSub').textContent = 'Produk: ' + productName;
   document.getElementById('reviewComment').value = '';
-  document.querySelectorAll('#starPicker span').forEach(s => s.classList.remove('sel'));
   window._selectedStars = 5;
-  document.querySelectorAll('#starPicker span').forEach(s => { if (+s.dataset.v <= 5) s.classList.add('sel'); });
+  document.querySelectorAll('#starPicker span').forEach(s => s.classList.toggle('sel', +s.dataset.v <= 5));
   document.getElementById('reviewModal').classList.add('active');
 }
 function closeModal(id) { document.getElementById(id).classList.remove('active'); }
@@ -1253,7 +1347,7 @@ function submitReview() {
   const order = DB.orders.find(o => o.id === _reviewCtx.orderId);
   if (p) {
     p.reviews = p.reviews || [];
-    p.reviews.unshift({ author: order?.address?.nama || 'Pembeli', rating, comment: comment || '(Tanpa komentar)', date: new Date().toISOString().slice(0,10) });
+    p.reviews.unshift({ author: order && order.address ? order.address.nama : 'Pembeli', rating, comment: comment || '(Tanpa komentar)', date: new Date().toISOString().slice(0,10) });
   }
   if (order) { order.reviewed = order.reviewed || {}; order.reviewed[_reviewCtx.productId] = true; }
   saveDB();
@@ -1460,10 +1554,81 @@ function advanceOrderStatus(orderId) {
   renderSellerOrders();
 }
 
+/* ===================== ROLE GATE + SELLER LOGIN ===================== */
+
+const ROLE_KEY = 'lokalmart_role_v1';
+const SELLER_AUTH_KEY = 'lokalmart_seller_auth_v1';
+
+function chooseRole(role) {
+  // Buyer needs no login — enter immediately.
+  try { localStorage.setItem(ROLE_KEY, role); } catch (e) { console.warn(e); }
+  document.getElementById('roleGate').classList.add('hidden');
+  document.getElementById('sellerLoginGate').classList.add('hidden');
+  setMode(role);
+}
+
+function goToSellerLogin() {
+  document.getElementById('roleGate').classList.add('hidden');
+  document.getElementById('sellerLoginGate').classList.remove('hidden');
+  document.getElementById('loginError').classList.remove('show');
+  document.getElementById('sellerUsername').value = '';
+  document.getElementById('sellerPassword').value = '';
+  document.getElementById('sellerUsername').focus();
+}
+
+function backToRoleSelect() {
+  document.getElementById('sellerLoginGate').classList.add('hidden');
+  document.getElementById('roleGate').classList.remove('hidden');
+}
+
+function attemptSellerLogin() {
+  const u = document.getElementById('sellerUsername').value.trim().toLowerCase();
+  const p = document.getElementById('sellerPassword').value;
+  const errBox = document.getElementById('loginError');
+
+  if (u === SELLER_USERNAME && p === SELLER_PASSWORD) {
+    try {
+      localStorage.setItem(SELLER_AUTH_KEY, 'true');
+      localStorage.setItem(ROLE_KEY, 'seller');
+    } catch (e) { console.warn(e); }
+    document.getElementById('sellerLoginGate').classList.add('hidden');
+    setMode('seller');
+    toast('Selamat datang kembali, ' + SELLER_USERNAME.replace(/\b\w/g, c => c.toUpperCase()) + '!');
+  } else {
+    errBox.classList.add('show');
+  }
+}
+
+function switchRole() {
+  try {
+    localStorage.removeItem(ROLE_KEY);
+    localStorage.removeItem(SELLER_AUTH_KEY);
+  } catch (e) { console.warn(e); }
+  document.getElementById('sellerLoginGate').classList.add('hidden');
+  document.getElementById('roleGate').classList.remove('hidden');
+}
+
+function getSavedRole() {
+  try { return localStorage.getItem(ROLE_KEY); } catch (e) { return null; }
+}
+function isSellerAuthed() {
+  try { return localStorage.getItem(SELLER_AUTH_KEY) === 'true'; } catch (e) { return false; }
+}
+
 /* ---------- boot ---------- */
 initData();
-setMode('buyer');
-navigate('home');
+const savedRole = getSavedRole();
+if (savedRole === 'buyer') {
+  document.getElementById('roleGate').classList.add('hidden');
+  setMode('buyer');
+} else if (savedRole === 'seller' && isSellerAuthed()) {
+  document.getElementById('roleGate').classList.add('hidden');
+  setMode('seller');
+} else {
+  // No valid saved session — show the role picker (and pre-render buyer views
+  // behind it so the app isn't blank if the gate is somehow bypassed).
+  setMode('buyer');
+}
 </script>
 </body>
 </html>
